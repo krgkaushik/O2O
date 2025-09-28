@@ -39,21 +39,19 @@
             border: 2px dashed #d1d5db;
             border-radius: 0.5rem;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             overflow: hidden;
-            transition: background-color 0.2s;
-        }
-        .image-preview:hover {
-            background-color: #e5e7eb;
+            position: relative;
         }
         .image-preview img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        .image-preview-placeholder {
+        .image-preview-text {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -72,31 +70,18 @@
             color: #f59e0b; /* amber-500 */
         }
 
-        /* Enhanced Nav Item Style */
-        .nav-item.nav-item-active {
-            color: #16a34a; /* green-700 */
-        }
-        .nav-item.nav-item-active .nav-item-inner {
-            background-color: #f0fdf4; /* green-50 */
-            transform: scale(1.1);
-        }
-        .nav-item .nav-item-inner {
-            transition: all 0.2s ease-in-out;
-            padding: 4px 16px;
-            border-radius: 9999px;
-        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-100">
 
-    <main class="max-w-7xl mx-auto bg-white min-h-screen shadow-2xl shadow-gray-200">
+    <main class="max-w-7xl mx-auto bg-white min-h-screen shadow-lg">
         <div id="page-wrapper" class="p-2 sm:p-5">
             <div id="onboarding-page" class="page active p-6 text-center">
                 <div class="flex justify-end">
                     <button class="text-gray-400 text-2xl">&times;</button>
                 </div>
                 <div class="mt-8">
-                    <div class="bg-gradient-to-br from-green-500 to-green-600 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-green-200">
+                    <div class="bg-green-600 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
                          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                     </div>
                     <h1 class="text-3xl font-extrabold text-gray-800 mt-6">ShopConnect</h1>
@@ -106,7 +91,7 @@
                 <div class="mt-12 space-y-6 max-w-md mx-auto">
                     <h2 class="text-xl font-bold text-gray-800">Choose Your Role</h2>
                     
-                    <div id="role-shopkeeper" class="bg-white p-6 rounded-2xl shadow-md text-left cursor-pointer hover:ring-2 hover:ring-green-500 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl">
+                    <div id="role-shopkeeper" class="bg-white p-6 rounded-2xl shadow-md text-left cursor-pointer hover:ring-2 hover:ring-green-500 transition-all">
                         <div class="flex items-center gap-4">
                             <div class="bg-gray-100 p-3 rounded-lg"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg></div>
                             <h3 class="text-lg font-bold">I'm a Shopkeeper</h3>
@@ -118,7 +103,7 @@
                         </ul>
                     </div>
 
-                     <div id="role-customer" class="bg-white p-6 rounded-2xl shadow-md text-left cursor-pointer hover:ring-2 hover:ring-green-500 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl">
+                     <div id="role-customer" class="bg-white p-6 rounded-2xl shadow-md text-left cursor-pointer hover:ring-2 hover:ring-green-500 transition-all">
                         <div class="flex items-center gap-4">
                              <div class="bg-gray-100 p-3 rounded-lg"><svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
                             <h3 class="text-lg font-bold">I'm a Customer</h3>
@@ -132,37 +117,38 @@
                 </div>
             </div>
 
-            <div id="shop-creation-page" class="page p-6 pb-24">
+            <div id="shop-form-page" class="page p-6 pb-24">
                 <div class="max-w-md mx-auto">
-                    <h1 class="text-2xl font-bold text-gray-800">Create Your Shop</h1>
-                    <p class="text-gray-500 mt-1">Fill in the details to get started.</p>
-                    <form id="create-shop-form" class="mt-8 space-y-6">
+                    <h1 id="shop-form-title" class="text-2xl font-bold text-gray-800">Create Your Shop</h1>
+                    <p id="shop-form-subtitle" class="text-gray-500 mt-1">Fill in the details to get started.</p>
+                    <form id="shop-form" class="mt-8 space-y-6">
+                        <input type="hidden" id="shopFormId">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Shop Photo</label>
-                            <label for="createShopImage" class="image-preview">
-                                <img id="createShopImagePreview" src="" alt="Shop preview" class="hidden">
-                                <div class="image-preview-placeholder">
-                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                    <span>Upload Photo</span>
+                            <div class="image-preview" data-input="shopImage" data-preview="shopImagePreview">
+                                <img id="shopImagePreview" src="" alt="Shop preview" class="hidden">
+                                <div class="image-preview-text">
+                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <span>Upload or Take Photo</span>
                                 </div>
-                            </label>
-                            <input type="file" id="createShopImage" class="hidden" accept="image/*" capture="environment" required>
+                            </div>
+                            <input type="file" id="shopImage" class="hidden" accept="image/*">
                         </div>
                         <div>
-                            <label for="createShopName" class="block text-sm font-medium text-gray-700">Shop Name</label>
-                            <input type="text" id="createShopName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" required>
+                            <label for="shopName" class="block text-sm font-medium text-gray-700">Shop Name</label>
+                            <input type="text" id="shopName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" required>
                         </div>
                         <div>
-                            <label for="createShopLocation" class="block text-sm font-medium text-gray-700">Location / Address</label>
-                            <input type="text" id="createShopLocation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" required>
+                            <label for="shopLocation" class="block text-sm font-medium text-gray-700">Location / Address</label>
+                            <input type="text" id="shopLocation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" required>
                         </div>
                         <div>
-                            <label for="createShopPhone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                            <input type="tel" id="createShopPhone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" required>
+                            <label for="shopPhone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                            <input type="tel" id="shopPhone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" required>
                         </div>
                         <div>
-                            <label for="createShopCategory" class="block text-sm font-medium text-gray-700">Category</label>
-                            <select id="createShopCategory" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" required>
+                            <label for="shopCategory" class="block text-sm font-medium text-gray-700">Category</label>
+                            <select id="shopCategory" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" required>
                                 <option value="" disabled selected>Select a category</option>
                                 <option value="Grocery">Grocery</option>
                                 <option value="Electronics">Electronics</option>
@@ -172,8 +158,12 @@
                                 <option value="Other">Other</option>
                             </select>
                         </div>
+                         <div>
+                            <label for="shopAbout" class="block text-sm font-medium text-gray-700">About Store</label>
+                            <textarea id="shopAbout" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" required></textarea>
+                        </div>
 
-                        <button type="submit" class="w-full bg-gradient-to-br from-green-500 to-green-600 text-white py-3 rounded-lg font-semibold text-lg hover:from-green-600 hover:to-green-700 transition-all shadow-lg shadow-green-100 hover:shadow-xl hover:-translate-y-0.5 transform">Create Shop & Continue</button>
+                        <button type="submit" id="shop-form-submit-btn" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold text-lg hover:bg-green-700">Create Shop & Continue</button>
                     </form>
                 </div>
             </div>
@@ -189,20 +179,21 @@
         <footer id="bottom-nav" class="sticky bottom-0 z-10 bg-white rounded-t-3xl shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.1)] border-t sm:static sm:rounded-b-3xl sm:shadow-lg sm:mt-8" style="display: none;"></footer>
     </main>
 
-    <div id="add-product-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+    <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
         <div class="bg-white rounded-2xl p-6 w-full max-w-sm">
-            <h2 class="text-xl font-bold mb-4">Add New Product</h2>
-            <form id="add-product-form">
+            <h2 id="product-modal-title" class="text-xl font-bold mb-4">Add New Product</h2>
+            <form id="product-form">
+                <input type="hidden" id="productId">
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Product Photo</label>
-                    <label for="productImage" class="image-preview">
+                     <div class="image-preview" data-input="productImage" data-preview="productImagePreview">
                         <img id="productImagePreview" src="" alt="Product preview" class="hidden">
-                        <div class="image-preview-placeholder">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                            <span>Upload Photo</span>
+                        <div class="image-preview-text">
+                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <span>Upload or Take Photo</span>
                         </div>
-                    </label>
-                    <input type="file" id="productImage" class="hidden" accept="image/*" capture="environment">
+                    </div>
+                    <input type="file" id="productImage" class="hidden" accept="image/*">
                 </div>
                 <div class="mb-4">
                     <label for="productName" class="block text-sm font-medium text-gray-700">Product Name</label>
@@ -220,8 +211,8 @@
                     </select>
                 </div>
                 <div class="flex justify-end gap-3 mt-6">
-                    <button type="button" id="cancel-add-product" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold">Cancel</button>
-                    <button type="submit" class="bg-gradient-to-br from-green-500 to-green-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">Add Product</button>
+                    <button type="button" id="cancel-product-modal" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold">Cancel</button>
+                    <button type="submit" id="product-submit-btn" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold">Add Product</button>
                 </div>
             </form>
         </div>
@@ -249,10 +240,16 @@
                 </div>
                 <div class="flex justify-end gap-3 mt-6">
                     <button type="button" id="cancel-add-review" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold">Cancel</button>
-                    <button type="submit" class="bg-gradient-to-br from-green-500 to-green-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">Submit Review</button>
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold">Submit Review</button>
                 </div>
             </form>
         </div>
+    </div>
+    
+    <div id="camera-modal" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-50 hidden">
+        <video id="camera-feed" class="w-full h-full object-cover" autoplay></video>
+        <button id="capture-btn" class="absolute bottom-20 bg-white w-20 h-20 rounded-full border-4 border-gray-400"></button>
+        <button id="cancel-camera-btn" class="absolute top-5 right-5 bg-black/50 text-white px-4 py-2 rounded-lg">Cancel</button>
     </div>
 
 
@@ -277,14 +274,18 @@
                 { id: 104, name: 'Sourdough Bread', price: 5.49, image: 'https://images.unsplash.com/photo-1533087353924-526322585b42?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80', status: 'Out of Stock' },
               ],
               reviews: [
-                { id: 1001, author: "Sarah Johnson", rating: 5, text: "Amazing store with the freshest produce I've ever seen! The staff is incredibly helpful and knowledgeable. I found everything I needed for my dinner party.", date: "2 days ago", likes: 12 },
-                { id: 1002, author: "Michael Chen", rating: 4, text: "Great prices and a clean, well-organized store. My go-to for weekly groceries. Only wish they were open later on weekends.", date: "1 week ago", likes: 5 },
+                { id: 1001, author: "Sarah Johnson", rating: 5, text: "Amazing store with the freshest produce I've ever seen! The staff is incredibly helpful and knowledgeable. I found everything I needed for my dinner party.", date: "2 days ago" },
+                { id: 1002, author: "Michael Chen", rating: 4, text: "Great prices and a clean, well-organized store. My go-to for weekly groceries. Only wish they were open later on weekends.", date: "1 week ago" },
               ]
             },
             { id: 2, name: 'Tech World Electronics', category: 'Electronics', location: '456 Tech Ave, Circuit City', phone: '555-5678', image: 'https://images.unsplash.com/photo-1555774698-0b77e0abfe79?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80', headerImage: 'https://images.unsplash.com/photo-1550009158-94ae76252485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80', status: 'Open', rating: 4.8, reviewsCount: 210, hours: "10:00 AM - 8:00 PM", about: "The latest and greatest in consumer electronics. From phones to drones, we've got you covered.", photos: [], products: [], reviews: [] },
             { id: 3, name: 'Fashion Hub', category: 'Fashion', location: '789 Style St, Trendsville', phone: '555-9012', image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80', headerImage: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80', status: 'Closed', rating: 4.3, reviewsCount: 88, hours: "11:00 AM - 7:00 PM", about: "Curated collections of the latest trends in fashion. Style for every story.", photos: [], products: [], reviews: [] },
         ],
     };
+
+    let currentUserRole = '';
+    let cameraStream = null;
+    let currentImageConfig = {};
 
     // --- RENDER FUNCTIONS ---
     function renderCustomerHome(categoryFilter = 'All') {
@@ -307,7 +308,7 @@
             : allProducts.filter(p => p.storeCategory.includes(categoryFilter));
 
         const productsHTML = filteredProducts.map(product => `
-            <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer product-card hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer product-card" data-store-id="${product.storeId}">
                 <div class="relative">
                     <img src="${product.image}" class="w-full h-32 object-cover">
                     ${product.status === 'Out of Stock' ? '<div class="status-out-of-stock">Out of Stock</div>' : ''}
@@ -326,8 +327,8 @@
         const allCategory = { name: 'All', icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>', color: 'bg-gray-100', textColor: 'text-gray-600' };
         const categoriesForFilter = [allCategory, ...MOCK_DATA.categories];
         const categoriesHTML = categoriesForFilter.map(cat => `
-            <div class="text-center flex-shrink-0">
-                <button class="category-filter-btn w-14 h-14 rounded-2xl flex items-center justify-center mx-auto transition-all transform hover:scale-110 ${cat.name === categoryFilter ? `ring-2 ring-offset-2 ring-green-500 ${cat.color}` : 'bg-white shadow-md'}" data-category="${cat.name}">
+            <div class="text-center">
+                <button class="category-filter-btn w-14 h-14 rounded-2xl flex items-center justify-center mx-auto ${cat.name === categoryFilter ? `ring-2 ring-green-500 ${cat.color}` : 'bg-white'}" data-category="${cat.name}">
                     <span class="${cat.textColor}">${cat.icon}</span>
                 </button>
                 <p class="text-xs font-semibold text-gray-700 mt-2">${cat.name}</p>
@@ -338,11 +339,11 @@
             <div class="pb-24 sm:pb-5">
                 <header class="p-5 flex justify-between items-center"><div class="flex items-center gap-3"><div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center"><svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg></div><div><h1 class="text-lg font-bold text-gray-800">Welcome back!</h1><p class="text-sm text-gray-500">Find products from local stores</p></div></div><button class="relative p-2 rounded-full hover:bg-gray-200"><svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg><span class="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span></button></header>
                 <div class="px-5 pb-5"><div class="relative"><input type="text" placeholder="Search for products..." class="w-full bg-white border border-gray-200 rounded-xl py-3 pl-12 pr-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500"><div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div></div></div>
-                <div id="category-filter-container" class="px-5"><div class="flex flex-row overflow-x-auto pb-4 gap-5">${categoriesHTML}</div></div>
+                <div id="category-filter-container" class="px-5"><div class="flex flex-row flex-wrap items-center justify-center gap-4">${categoriesHTML}</div></div>
                 <div class="mt-8 px-5">
                     <h2 class="text-xl font-bold text-gray-800 mb-4">All Products</h2>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                        ${productsHTML.length > 0 ? productsHTML : '<p class="col-span-full text-center text-gray-500 py-8">No products found in this category.</p>'}
+                         ${productsHTML.length > 0 ? productsHTML : '<p class="col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 text-center text-gray-500 py-8">No products found in this category.</p>'}
                     </div>
                 </div>
             </div>
@@ -355,7 +356,7 @@
         
         const page = document.getElementById('store-detail-page');
         const productsHTML = store.products.map(p => `
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
                 <div class="relative">
                     <img src="${p.image}" class="w-full h-32 object-cover">
                     ${p.status === 'Out of Stock' ? '<div class="status-out-of-stock">Out of Stock</div>' : ''}
@@ -376,8 +377,8 @@
                 stars += `<svg class="w-4 h-4 ${i <= review.rating ? 'text-yellow-400' : 'text-gray-300'}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>`;
             }
             return `
-                <div class="bg-white p-4 rounded-xl shadow-lg">
-                    <div class="flex items-start justify-between">
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="flex items-center justify-between">
                         <div>
                             <p class="font-bold text-gray-800">${review.author}</p>
                             <p class="text-xs text-gray-500">${review.date}</p>
@@ -385,12 +386,6 @@
                         <div class="flex">${stars}</div>
                     </div>
                     <p class="text-gray-600 mt-3">${review.text}</p>
-                    <div class="mt-4 pt-3 border-t border-gray-100">
-                        <button class="like-review-btn text-sm font-semibold text-gray-500 hover:text-green-600 flex items-center gap-2 transition-colors" data-store-id="${store.id}" data-review-id="${review.id}">
-                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 18.236V6.236a2 2 0 012-2h4.472c.63 0 1.222.28.1.536l.94 1.88a2 2 0 01.176 1.894l-2.58 5.16a1 1 0 00.28 1.325z"></path></svg>
-                             <span>Helpful (${review.likes})</span>
-                        </button>
-                    </div>
                 </div>
             `;
         }).join('');
@@ -405,7 +400,7 @@
                     <button class="absolute top-4 right-4 bg-white/70 backdrop-blur-sm p-2 rounded-full favorite-btn" data-store-id="${store.id}">
                         <svg class="w-6 h-6 text-red-500" fill="${isFavorited ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                     </button>
-                    <div class="absolute -bottom-8 left-5"><img src="${store.image}" class="w-20 h-20 rounded-2xl object-cover border-4 border-white shadow-lg"></div>
+                    <div class="absolute -bottom-8 left-5"><img src="${store.image}" class="w-20 h-20 rounded-lg object-cover border-4 border-white shadow-md"></div>
                 </header>
                 <div class="p-5 mt-8">
                     <h1 class="text-2xl font-bold text-gray-800">${store.name}</h1>
@@ -417,12 +412,12 @@
                     <div class="flex items-center gap-2 text-sm text-gray-600 mt-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>${store.hours}</div>
                     
                     <div class="flex flex-wrap justify-center gap-3 my-6">
-                        <button class="flex items-center gap-2 bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>Call</button>
-                        <button class="flex items-center gap-2 bg-gradient-to-br from-purple-500 to-purple-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path></svg>Message</button>
-                        <button class="flex items-center gap-2 bg-gradient-to-br from-green-500 to-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l4 4V6a1 1 0 00-.293-.707z" clip-rule="evenodd"></path></svg>Directions</button>
+                        <button class="bg-gray-200 text-gray-800 font-semibold px-6 py-3 rounded-lg">Call</button>
+                        <button class="bg-gray-200 text-gray-800 font-semibold px-6 py-3 rounded-lg">Message</button>
+                        <button class="bg-green-600 text-white font-semibold px-6 py-3 rounded-lg">Directions</button>
                     </div>
 
-                    <div class="bg-white p-4 rounded-xl shadow-lg">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
                         <h3 class="font-bold">About Store</h3>
                         <p class="text-gray-600 text-sm mt-2">${store.about}</p>
                     </div>
@@ -434,7 +429,7 @@
                      <div class="mt-6">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold text-lg">Reviews (${store.reviews.length})</h3>
-                            <button id="add-review-btn" data-store-id="${store.id}" class="text-sm bg-green-100 text-green-700 font-semibold px-4 py-2 rounded-lg hover:bg-green-200 transition-colors">Add Review</button>
+                            <button id="add-review-btn" data-store-id="${store.id}" class="text-sm bg-green-100 text-green-700 font-semibold px-4 py-2 rounded-lg hover:bg-green-200">Add Review</button>
                         </div>
                         <div class="space-y-4 mt-4">${reviewsHTML.length > 0 ? reviewsHTML : '<p class="text-center text-gray-500 py-8">No reviews yet. Be the first to leave one!</p>'}</div>
                     </div>
@@ -450,17 +445,19 @@
             return;
         }
         const listHTML = MOCK_DATA.myShop.products.length > 0 ? MOCK_DATA.myShop.products.map(p => `
-            <div class="bg-white p-3 rounded-lg shadow-md flex items-center gap-4">
+            <div class="bg-white p-3 rounded-lg shadow-sm flex items-center gap-4">
                 <img src="${p.image}" class="w-16 h-16 rounded-md object-cover">
                 <div class="flex-grow">
                     <h4 class="font-semibold text-gray-800">${p.name}</h4>
                     <span class="text-sm text-gray-500">$${p.price.toFixed(2)}</span>
                 </div>
-                <div>
-                    <span class="text-xs font-semibold px-2 py-1 rounded-md ${p.status === 'Available' ? 'status-available' : 'text-gray-500 bg-gray-200'}">${p.status}</span>
+                <div class="flex items-center gap-2">
+                     <span class="text-xs font-semibold px-2 py-1 rounded-md ${p.status === 'Available' ? 'status-available' : 'text-gray-500 bg-gray-200'}">${p.status}</span>
+                     <button class="edit-product-btn p-1 text-gray-400 hover:text-blue-500" data-product-id="${p.id}"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z"></path></svg></button>
+                     <button class="delete-product-btn p-1 text-gray-400 hover:text-red-500" data-product-id="${p.id}"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
                 </div>
             </div>
-        `).join('') : `<div class="text-center text-gray-500 py-10 bg-gray-50 rounded-lg"><svg class="w-16 h-16 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg><p class="mt-4 font-semibold">You haven't added any products yet.</p><p class="text-sm mt-1">Click the '+' button to add your first product.</p></div>`;
+        `).join('') : `<div class="text-center text-gray-500 py-10 bg-gray-50 rounded-lg"><p>You haven't added any products yet.</p><p class="text-sm mt-1">Click the '+' button to add your first product.</p></div>`;
         page.innerHTML = `
             <div class="relative">
                 <div class="flex justify-between items-center mb-6">
@@ -470,7 +467,7 @@
                     </div>
                 </div>
                 <div id="shopkeeper-products-list" class="space-y-4">${listHTML}</div>
-                <button id="add-product-btn" class="fixed bottom-24 right-5 sm:absolute sm:top-0 sm:right-0 sm:bottom-auto bg-gradient-to-br from-green-500 to-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg shadow-green-200 hover:shadow-xl transition-all transform hover:scale-110">
+                <button id="add-product-btn" class="fixed bottom-24 right-5 sm:absolute sm:top-0 sm:right-0 sm:bottom-auto bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-700 transition-transform transform hover:scale-105">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 </button>
             </div>
@@ -486,9 +483,7 @@
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div>
             </div>
             <div id="search-results" class="mt-6 text-center text-gray-500 pt-16">
-                <svg class="w-16 h-16 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <p class="mt-4 font-semibold">Search for anything</p>
-                <p class="text-sm mt-1">Your search results will appear here.</p>
+                <p>Your search results will appear here.</p>
             </div>
         `;
     }
@@ -500,7 +495,7 @@
         let contentHTML;
         if (favoritedStores.length > 0) {
             contentHTML = favoritedStores.map(store => `
-                <div class="bg-white p-4 rounded-xl shadow-lg flex items-center gap-4 cursor-pointer store-card hover:-translate-y-1 transition-transform duration-300">
+                <div class="bg-white p-4 rounded-xl shadow-sm flex items-center gap-4 cursor-pointer store-card" data-store-id="${store.id}">
                     <img src="${store.image}" alt="${store.name}" class="w-20 h-20 rounded-lg object-cover">
                     <div class="flex-grow">
                         <h3 class="font-bold text-gray-800">${store.name}</h3>
@@ -509,7 +504,7 @@
                 </div>
             `).join('');
         } else {
-            contentHTML = `<div class="text-center text-gray-500 pt-16"><svg class="w-16 h-16 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg><p class="mt-4 font-semibold">No Favorites Yet</p><p class="text-sm mt-1">Tap the heart icon on a store's page to save it.</p></div>`;
+            contentHTML = `<div class="text-center text-gray-500 pt-16"><p>You haven't added any stores to your favorites yet.</p></div>`;
         }
         
         page.innerHTML = `
@@ -520,9 +515,9 @@
 
     function renderProfilePage(role) {
        if (role === 'shopkeeper') {
-           renderShopkeeperProfilePage();
+            renderShopkeeperProfilePage();
        } else {
-           renderCustomerProfilePage();
+            renderCustomerProfilePage();
        }
     }
 
@@ -532,7 +527,7 @@
             <div class="max-w-md mx-auto">
                 <div class="flex items-center gap-4">
                      <div class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center">
-                         <svg class="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        <svg class="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-gray-800">Alex Doe</h1>
@@ -540,9 +535,10 @@
                     </div>
                 </div>
                 <div class="mt-8 space-y-4">
-                    <a href="#" class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center text-gray-700 hover:bg-gray-50 transition-colors"><span>Account Settings</span><span class="text-gray-400">></span></a>
-                    <a href="#" class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center text-gray-700 hover:bg-gray-50 transition-colors"><span>Help & Support</span><span class="text-gray-400">></span></a>
-                    <a href="javascript:void(0);" id="logout-btn" class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center text-red-500 hover:bg-red-50 transition-colors"><span>Log Out</span><span class="text-red-400">></span></a>
+                    <a href="javascript:void(0);" id="become-shopkeeper-btn" class="bg-green-50 p-4 rounded-lg shadow-sm flex justify-between items-center text-green-700 hover:bg-green-100"><span>Become a Shopkeeper</span><span class="text-green-500">></span></a>
+                    <a href="#" class="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center text-gray-700 hover:bg-gray-50"><span>Account Settings</span><span class="text-gray-400">></span></a>
+                    <a href="#" class="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center text-gray-700 hover:bg-gray-50"><span>Help & Support</span><span class="text-gray-400">></span></a>
+                    <a href="javascript:void(0);" id="logout-btn" class="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center text-red-500 hover:bg-red-50"><span>Log Out</span><span class="text-red-400">></span></a>
                 </div>
             </div>
         `;
@@ -565,10 +561,10 @@
                     </div>
                 </div>
                 <div class="mt-8 space-y-4">
-                    <button id="view-store-page-btn" data-store-id="${shop.id}" class="w-full bg-gradient-to-br from-green-500 to-green-600 text-white p-4 rounded-lg shadow-md flex justify-center items-center font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:-translate-y-0.5">View My Store Page</button>
-                    <a href="#" class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center text-gray-700 hover:bg-gray-50 transition-colors"><span>Edit Shop Details</span><span class="text-gray-400">></span></a>
-                    <a href="#" class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center text-gray-700 hover:bg-gray-50 transition-colors"><span>Account Settings</span><span class="text-gray-400">></span></a>
-                    <a href="javascript:void(0);" id="logout-btn" class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center text-red-500 hover:bg-red-50 transition-colors"><span>Log Out</span><span class="text-red-400">></span></a>
+                    <button id="view-store-page-btn" data-store-id="${shop.id}" class="w-full bg-green-600 text-white p-4 rounded-lg shadow-sm flex justify-center items-center font-semibold hover:bg-green-700">View My Store Page</button>
+                    <a href="javascript:void(0);" id="edit-shop-details-btn" class="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center text-gray-700 hover:bg-gray-50"><span>Edit Shop Details</span><span class="text-gray-400">></span></a>
+                    <a href="#" class="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center text-gray-700 hover:bg-gray-50"><span>Account Settings</span><span class="text-gray-400">></span></a>
+                    <a href="javascript:void(0);" id="logout-btn" class="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center text-red-500 hover:bg-red-50"><span>Log Out</span><span class="text-red-400">></span></a>
                 </div>
             </div>
         `;
@@ -589,40 +585,34 @@
 
         page.innerHTML = `
             <h1 class="text-2xl font-bold text-gray-800 mb-6">Analytics</h1>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <div class="h-1.5 bg-blue-500"></div>
-                    <div class="p-6">
-                        <h3 class="text-gray-500 font-semibold">Total Products</h3>
-                        <p class="text-4xl font-extrabold text-gray-800 mt-2">${totalProducts}</p>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-gray-500 font-semibold">Total Products</h3>
+                    <p class="text-4xl font-extrabold text-gray-800 mt-2">${totalProducts}</p>
                 </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <div class="h-1.5 bg-green-500"></div>
-                    <div class="p-6">
-                        <h3 class="text-gray-500 font-semibold">Live Inventory Value</h3>
-                        <p class="text-4xl font-extrabold text-gray-800 mt-2">$${totalValue.toFixed(2)}</p>
-                    </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-gray-500 font-semibold">Live Inventory Value</h3>
+                    <p class="text-4xl font-extrabold text-gray-800 mt-2">$${totalValue.toFixed(2)}</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-lg md:col-span-2">
+                <div class="bg-white p-6 rounded-lg shadow-sm md:col-span-2">
                      <h3 class="text-gray-500 font-semibold mb-3">Stock Status</h3>
                      <div class="space-y-2">
                          <div class="flex justify-between items-center">
-                             <span class="text-green-600 font-semibold">Available</span>
-                             <span class="font-bold">${availableProducts}</span>
-                         </div>
-                         <div class="w-full bg-gray-200 rounded-full h-2.5">
-                             <div class="bg-green-500 h-2.5 rounded-full" style="width: ${totalProducts > 0 ? (availableProducts / totalProducts) * 100 : 0}%"></div>
-                         </div>
+                            <span class="text-green-600 font-semibold">Available</span>
+                            <span class="font-bold">${availableProducts}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-green-500 h-2.5 rounded-full" style="width: ${totalProducts > 0 ? (availableProducts / totalProducts) * 100 : 0}%"></div>
+                        </div>
                      </div>
                      <div class="space-y-2 mt-4">
                          <div class="flex justify-between items-center">
-                             <span class="text-red-600 font-semibold">Out of Stock</span>
-                             <span class="font-bold">${outOfStockProducts}</span>
-                         </div>
-                         <div class="w-full bg-gray-200 rounded-full h-2.5">
-                             <div class="bg-red-500 h-2.5 rounded-full" style="width: ${totalProducts > 0 ? (outOfStockProducts / totalProducts) * 100 : 0}%"></div>
-                         </div>
+                            <span class="text-red-600 font-semibold">Out of Stock</span>
+                            <span class="font-bold">${outOfStockProducts}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-red-500 h-2.5 rounded-full" style="width: ${totalProducts > 0 ? (outOfStockProducts / totalProducts) * 100 : 0}%"></div>
+                        </div>
                      </div>
                 </div>
             </div>
@@ -634,16 +624,16 @@
         let navItems = '';
         if (role === 'customer') {
             navItems = `
-                <a href="javascript:void(0);" class="nav-item text-center text-gray-500 nav-item-active" data-page="customer-home-page"><div class="nav-item-inner"><svg class="w-7 h-7 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg><span class="text-xs font-bold">Home</span></div></a>
-                <a href="javascript:void(0);" class="nav-item text-center text-gray-500" data-page="search-page"><div class="nav-item-inner"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg><span class="text-xs font-medium">Search</span></div></a>
-                <a href="javascript:void(0);" class="nav-item text-center text-gray-500" data-page="favorites-page"><div class="nav-item-inner"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg><span class="text-xs font-medium">Favorites</span></div></a>
-                <a href="javascript:void(0);" class="nav-item text-center text-gray-500" data-page="profile-page"><div class="nav-item-inner"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg><span class="text-xs font-medium">Profile</span></div></a>
+                <a href="javascript:void(0);" class="nav-item text-center text-green-600" data-page="customer-home-page"><svg class="w-7 h-7 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg><span class="text-xs font-bold">Home</span></a>
+                <a href="javascript:void(0);" class="nav-item text-center text-gray-400" data-page="search-page"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg><span class="text-xs font-medium">Search</span></a>
+                <a href="javascript:void(0);" class="nav-item text-center text-gray-400" data-page="favorites-page"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg><span class="text-xs font-medium">Favorites</span></a>
+                <a href="javascript:void(0);" class="nav-item text-center text-gray-400" data-page="profile-page"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg><span class="text-xs font-medium">Profile</span></a>
             `;
         } else { // shopkeeper
              navItems = `
-                <a href="javascript:void(0);" class="nav-item text-center text-gray-500 nav-item-active" data-page="shopkeeper-dashboard-page"><div class="nav-item-inner"><svg class="w-7 h-7 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"></path></svg><span class="text-xs font-bold">Products</span></div></a>
-                <a href="javascript:void(0);" class="nav-item text-center text-gray-500" data-page="analytics-page"><div class="nav-item-inner"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg><span class="text-xs font-medium">Analytics</span></div></a>
-                <a href="javascript:void(0);" class="nav-item text-center text-gray-500" data-page="profile-page"><div class="nav-item-inner"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg><span class="text-xs font-medium">Profile</span></div></a>
+                <a href="javascript:void(0);" class="nav-item text-center text-green-600" data-page="shopkeeper-dashboard-page"><svg class="w-7 h-7 mx-auto" fill="currentColor" viewBox="0 0 20 20"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"></path></svg><span class="text-xs font-bold">Products</span></a>
+                <a href="javascript:void(0);" class="nav-item text-center text-gray-400" data-page="analytics-page"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg><span class="text-xs font-medium">Analytics</span></a>
+                <a href="javascript:void(0);" class="nav-item text-center text-gray-400" data-page="profile-page"><svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg><span class="text-xs font-medium">Profile</span></a>
             `;
         }
         nav.innerHTML = `<div class="flex justify-around items-center h-20 max-w-md mx-auto">${navItems}</div>`;
@@ -670,7 +660,7 @@
                 renderShopkeeperDashboard();
                 navigateTo('shopkeeper-dashboard-page');
             } else {
-                navigateTo('shop-creation-page');
+                openShopForm('create');
             }
             renderBottomNav('shopkeeper');
         });
@@ -691,18 +681,14 @@
 
             if(renderFunctions[pageId]) renderFunctions[pageId]();
             navigateTo(pageId);
-            
             document.querySelectorAll('#bottom-nav .nav-item').forEach(item => {
-                item.classList.remove('nav-item-active');
-                item.querySelector('span').classList.remove('font-bold'); 
-                item.querySelector('span').classList.add('font-medium');
+                item.classList.remove('text-green-600'); item.classList.add('text-gray-400');
+                item.querySelector('span').classList.remove('font-bold'); item.querySelector('span').classList.add('font-medium');
                 const svg = item.querySelector('svg');
                 if (svg.dataset.isFillIcon) { svg.setAttribute('fill', 'none'); svg.setAttribute('stroke', 'currentColor');}
             });
-
-            navItem.classList.add('nav-item-active');
-            navItem.querySelector('span').classList.add('font-bold');
-            navItem.querySelector('span').classList.remove('font-medium');
+            navItem.classList.add('text-green-600'); navItem.classList.remove('text-gray-400');
+            navItem.querySelector('span').classList.add('font-bold'); navItem.querySelector('span').classList.remove('font-medium');
             const svg = navItem.querySelector('svg');
             if (pageId === 'customer-home-page' || pageId === 'shopkeeper-dashboard-page') {
                 svg.setAttribute('fill', 'currentColor'); svg.dataset.isFillIcon = true;
@@ -719,7 +705,12 @@
             const addProductBtn = e.target.closest('#add-product-btn');
             const addReviewBtn = e.target.closest('#add-review-btn');
             const viewStorePageBtn = e.target.closest('#view-store-page-btn');
-            const likeReviewBtn = e.target.closest('.like-review-btn');
+            const becomeShopkeeperBtn = e.target.closest('#become-shopkeeper-btn');
+            const editShopDetailsBtn = e.target.closest('#edit-shop-details-btn');
+            const editProductBtn = e.target.closest('.edit-product-btn');
+            const deleteProductBtn = e.target.closest('.delete-product-btn');
+            const imagePreview = e.target.closest('.image-preview');
+
 
             if (productCard) {
                 renderStoreDetail(parseInt(productCard.dataset.storeId));
@@ -730,12 +721,8 @@
             } else if (categoryFilterBtn) {
                 renderCustomerHome(categoryFilterBtn.dataset.category);
             } else if (backBtn) {
-                const activeNav = document.querySelector('#bottom-nav .nav-item-active');
-                if (activeNav && activeNav.dataset.page) {
-                    navigateTo(activeNav.dataset.page);
-                } else {
-                    navigateTo('customer-home-page');
-                }
+                const previousPage = currentUserRole === 'shopkeeper' ? 'shopkeeper-dashboard-page' : 'customer-home-page';
+                navigateTo(previousPage);
             } else if (favoriteBtn) {
                 const storeId = parseInt(favoriteBtn.dataset.storeId);
                 const favIndex = MOCK_DATA.favorited.indexOf(storeId);
@@ -748,7 +735,7 @@
                 currentUserRole = '';
                 navigateTo('onboarding-page');
             } else if (addProductBtn) {
-                document.getElementById('add-product-modal').classList.remove('hidden');
+                openProductModal('add');
             } else if (addReviewBtn) {
                 const storeId = addReviewBtn.dataset.storeId;
                 document.getElementById('reviewStoreId').value = storeId;
@@ -756,25 +743,36 @@
             } else if(viewStorePageBtn) {
                 renderStoreDetail(parseInt(viewStorePageBtn.dataset.storeId));
                 navigateTo('store-detail-page');
-            } else if (likeReviewBtn) {
-                const storeId = parseInt(likeReviewBtn.dataset.storeId);
-                const reviewId = parseInt(likeReviewBtn.dataset.reviewId);
-                const store = MOCK_DATA.stores.find(s => s.id === storeId);
-                if (store) {
-                    const review = store.reviews.find(r => r.id === reviewId);
-                    if (review) {
-                        review.likes++;
-                        renderStoreDetail(storeId); // Re-render to show updated count
+            } else if (becomeShopkeeperBtn) {
+                 if (MOCK_DATA.myShop) {
+                    navigateTo('shopkeeper-dashboard-page');
+                } else {
+                    openShopForm('create');
+                }
+            } else if (editShopDetailsBtn) {
+                openShopForm('edit');
+            } else if (editProductBtn) {
+                const productId = parseInt(editProductBtn.dataset.productId);
+                openProductModal('edit', productId);
+            } else if (deleteProductBtn) {
+                 if (confirm('Are you sure you want to delete this product?')) {
+                    const productId = parseInt(deleteProductBtn.dataset.productId);
+                    const productIndex = MOCK_DATA.myShop.products.findIndex(p => p.id === productId);
+                    if (productIndex > -1) {
+                        MOCK_DATA.myShop.products.splice(productIndex, 1);
+                        renderShopkeeperDashboard();
                     }
                 }
+            } else if (imagePreview) {
+                handleImageSelection(imagePreview);
             }
         });
         
         // --- MODAL & FORM LOGIC ---
-        const addProductModal = document.getElementById('add-product-modal');
+        const productModal = document.getElementById('product-modal');
         const addReviewModal = document.getElementById('add-review-modal');
         
-        document.getElementById('cancel-add-product').addEventListener('click', () => addProductModal.classList.add('hidden'));
+        document.getElementById('cancel-product-modal').addEventListener('click', () => productModal.classList.add('hidden'));
         document.getElementById('cancel-add-review').addEventListener('click', () => addReviewModal.classList.add('hidden'));
 
         // Star rating logic
@@ -788,47 +786,79 @@
                 });
             });
         });
-
-        function handleImagePreview(inputId, previewId) {
-            const input = document.getElementById(inputId);
-            const previewImg = document.getElementById(previewId);
-            const placeholder = previewImg.parentElement.querySelector('.image-preview-placeholder');
-            const file = input.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImg.src = e.target.result;
-                    previewImg.classList.remove('hidden');
-                    if(placeholder) placeholder.classList.add('hidden');
-                }
-                reader.readAsDataURL(file);
-            }
+        
+        // Universal image preview handler
+        function updateImagePreview(previewEl, textEl, src) {
+            previewEl.src = src;
+            previewEl.classList.remove('hidden');
+            if(textEl) textEl.classList.add('hidden');
         }
 
-        document.getElementById('productImage').addEventListener('change', () => handleImagePreview('productImage', 'productImagePreview'));
-        document.getElementById('createShopImage').addEventListener('change', () => handleImagePreview('createShopImage', 'createShopImagePreview'));
+        function resetImagePreview(inputEl, previewEl, textEl) {
+             if (inputEl) inputEl.value = '';
+             if (previewEl) {
+                previewEl.src = '';
+                previewEl.classList.add('hidden');
+             }
+             if (textEl) textEl.classList.remove('hidden');
+        }
 
-        document.getElementById('add-product-form').addEventListener('submit', (e) => {
+        // Product Modal Logic
+        function openProductModal(mode, productId = null) {
+            const form = document.getElementById('product-form');
+            form.reset();
+            resetImagePreview(document.getElementById('productImage'), document.getElementById('productImagePreview'), document.querySelector('[data-preview="productImagePreview"] .image-preview-text'));
+            
+            const title = document.getElementById('product-modal-title');
+            const submitBtn = document.getElementById('product-submit-btn');
+            const idInput = document.getElementById('productId');
+            
+            if (mode === 'edit') {
+                const product = MOCK_DATA.myShop.products.find(p => p.id === productId);
+                if (!product) return;
+                
+                title.textContent = 'Edit Product';
+                submitBtn.textContent = 'Save Changes';
+                idInput.value = product.id;
+                document.getElementById('productName').value = product.name;
+                document.getElementById('productPrice').value = product.price;
+                document.getElementById('productStatus').value = product.status;
+                updateImagePreview(document.getElementById('productImagePreview'), document.querySelector('[data-preview="productImagePreview"] .image-preview-text'), product.image);
+            } else {
+                title.textContent = 'Add New Product';
+                submitBtn.textContent = 'Add Product';
+                idInput.value = '';
+            }
+            productModal.classList.remove('hidden');
+        }
+        
+        document.getElementById('product-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const newProduct = {
-                id: Date.now(),
+            const productId = document.getElementById('productId').value;
+            const productData = {
                 name: document.getElementById('productName').value,
                 price: parseFloat(document.getElementById('productPrice').value),
                 status: document.getElementById('productStatus').value,
                 image: document.getElementById('productImagePreview').src || 'https://placehold.co/100x100/cccccc/ffffff?text=New'
             };
             
-            if (MOCK_DATA.myShop) {
-                MOCK_DATA.myShop.products.unshift(newProduct);
+            if (productId) { // Edit mode
+                const productIndex = MOCK_DATA.myShop.products.findIndex(p => p.id === parseInt(productId));
+                if (productIndex > -1) {
+                    MOCK_DATA.myShop.products[productIndex] = { ...MOCK_DATA.myShop.products[productIndex], ...productData };
+                }
+            } else { // Add mode
+                const newProduct = { id: Date.now(), ...productData };
+                if (MOCK_DATA.myShop) {
+                    MOCK_DATA.myShop.products.unshift(newProduct);
+                }
             }
 
             renderShopkeeperDashboard();
-            addProductModal.classList.add('hidden');
-            e.target.reset();
-            document.getElementById('productImagePreview').classList.add('hidden');
-            document.getElementById('productImagePreview').parentElement.querySelector('.image-preview-placeholder').classList.remove('hidden');
+            productModal.classList.add('hidden');
         });
         
+        // Add Review Form
         document.getElementById('add-review-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const storeId = parseInt(document.getElementById('reviewStoreId').value);
@@ -839,8 +869,7 @@
                     author: "Alex Doe", // Placeholder name
                     rating: parseInt(document.getElementById('reviewRating').value),
                     text: document.getElementById('reviewText').value,
-                    date: "Just now",
-                    likes: 0
+                    date: "Just now"
                 };
                 store.reviews.unshift(newReview);
                 
@@ -855,29 +884,142 @@
             stars.forEach(s => s.classList.remove('selected'));
         });
 
+        // Shop Creation/Edit Form
+        function openShopForm(mode) {
+             const form = document.getElementById('shop-form');
+             form.reset();
+             resetImagePreview(document.getElementById('shopImage'), document.getElementById('shopImagePreview'), document.querySelector('[data-preview="shopImagePreview"] .image-preview-text'));
+            
+             if (mode === 'edit') {
+                 const shop = MOCK_DATA.myShop;
+                 document.getElementById('shop-form-title').textContent = 'Edit Your Shop';
+                 document.getElementById('shop-form-subtitle').textContent = 'Update your shop details below.';
+                 document.getElementById('shop-form-submit-btn').textContent = 'Save Changes';
+                 document.getElementById('shopFormId').value = shop.id;
+                 document.getElementById('shopName').value = shop.name;
+                 document.getElementById('shopLocation').value = shop.location;
+                 document.getElementById('shopPhone').value = shop.phone;
+                 document.getElementById('shopCategory').value = shop.category;
+                 document.getElementById('shopAbout').value = shop.about;
+                 updateImagePreview(document.getElementById('shopImagePreview'), document.querySelector('[data-preview="shopImagePreview"] .image-preview-text'), shop.image);
+             } else {
+                 document.getElementById('shop-form-title').textContent = 'Create Your Shop';
+                 document.getElementById('shop-form-subtitle').textContent = 'Fill in the details to get started.';
+                 document.getElementById('shop-form-submit-btn').textContent = 'Create Shop & Continue';
+                 document.getElementById('shopFormId').value = '';
+             }
+             navigateTo('shop-form-page');
+        }
 
-        document.getElementById('create-shop-form').addEventListener('submit', (e) => {
+        document.getElementById('shop-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const newShop = {
-                id: Date.now(),
-                name: document.getElementById('createShopName').value,
-                category: document.getElementById('createShopCategory').value,
-                location: document.getElementById('createShopLocation').value,
-                phone: document.getElementById('createShopPhone').value,
-                image: document.getElementById('createShopImagePreview').src,
-                headerImage: 'https://placehold.co/600x400/ccc/fff?text=New+Shop',
-                status: 'Open', rating: 0, reviewsCount: 0, hours: "9:00 AM - 8:00 PM", about: `Welcome to ${document.getElementById('createShopName').value}! A new shop ready to serve you.`, products: [], reviews: []
+            const shopId = document.getElementById('shopFormId').value;
+            const shopData = {
+                name: document.getElementById('shopName').value,
+                category: document.getElementById('shopCategory').value,
+                location: document.getElementById('shopLocation').value,
+                phone: document.getElementById('shopPhone').value,
+                about: document.getElementById('shopAbout').value,
+                image: document.getElementById('shopImagePreview').src || 'https://placehold.co/100x100/cccccc/ffffff?text=Shop',
             };
-            MOCK_DATA.myShop = newShop;
-            MOCK_DATA.stores.push(newShop);
+
+            if (shopId) { // Edit mode
+                const shopIndex = MOCK_DATA.stores.findIndex(s => s.id === parseInt(shopId));
+                if (shopIndex > -1) {
+                    MOCK_DATA.stores[shopIndex] = { ...MOCK_DATA.stores[shopIndex], ...shopData };
+                    MOCK_DATA.myShop = MOCK_DATA.stores[shopIndex];
+                }
+            } else { // Create mode
+                const newShop = {
+                    id: Date.now(),
+                    ...shopData,
+                    headerImage: 'https://placehold.co/600x400/ccc/fff?text=New+Shop',
+                    status: 'Open', rating: 0, reviewsCount: 0, hours: "9:00 AM - 8:00 PM", products: [], reviews: []
+                };
+                MOCK_DATA.myShop = newShop;
+                MOCK_DATA.stores.push(newShop);
+                currentUserRole = 'shopkeeper';
+                renderBottomNav('shopkeeper');
+            }
             
             renderShopkeeperDashboard();
             navigateTo('shopkeeper-dashboard-page');
-            
-            e.target.reset();
-            document.getElementById('createShopImagePreview').classList.add('hidden');
-            document.getElementById('createShopImagePreview').parentElement.querySelector('.image-preview-placeholder').classList.remove('hidden');
         });
+
+        // --- CAMERA & IMAGE UPLOAD LOGIC ---
+        function handleImageSelection(previewElement) {
+            const inputId = previewElement.dataset.input;
+            const previewId = previewElement.dataset.preview;
+            const inputEl = document.getElementById(inputId);
+
+            const choice = confirm("Do you want to take a new photo with the camera? \n\n(Click 'OK' for Camera, 'Cancel' to Upload from files)");
+            if (choice) {
+                openCamera({ inputId, previewId });
+            } else {
+                inputEl.click();
+            }
+        }
+        
+        document.getElementById('shopImage').addEventListener('change', () => handleFileSelect('shopImage', 'shopImagePreview'));
+        document.getElementById('productImage').addEventListener('change', () => handleFileSelect('productImage', 'productImagePreview'));
+        
+        function handleFileSelect(inputId, previewId) {
+             const input = document.getElementById(inputId);
+             const preview = document.getElementById(previewId);
+             const textEl = preview.parentElement.querySelector('.image-preview-text');
+             const file = input.files[0];
+             if (file) {
+                 const reader = new FileReader();
+                 reader.onload = function(e) {
+                     updateImagePreview(preview, textEl, e.target.result);
+                 }
+                 reader.readAsDataURL(file);
+             }
+        }
+
+        async function openCamera(config) {
+            currentImageConfig = config;
+            const cameraModal = document.getElementById('camera-modal');
+            const video = document.getElementById('camera-feed');
+            
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                try {
+                    cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                    video.srcObject = cameraStream;
+                    cameraModal.classList.remove('hidden');
+                } catch (err) {
+                    console.error("Error accessing camera: ", err);
+                    alert("Could not access the camera. Please check permissions and try again.");
+                }
+            } else {
+                alert("Your browser does not support camera access.");
+            }
+        }
+
+        function closeCamera() {
+             if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+            }
+            document.getElementById('camera-modal').classList.add('hidden');
+        }
+        
+        document.getElementById('cancel-camera-btn').addEventListener('click', closeCamera);
+
+        document.getElementById('capture-btn').addEventListener('click', () => {
+            const video = document.getElementById('camera-feed');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg');
+
+            const preview = document.getElementById(currentImageConfig.previewId);
+            const textEl = preview.parentElement.querySelector('.image-preview-text');
+            updateImagePreview(preview, textEl, dataUrl);
+            
+            closeCamera();
+        });
+
     });
     </script>
 </body>
